@@ -7,8 +7,11 @@ import { showMessage } from 'react-native-flash-message';
 import MyLoading from '../../components/MyLoading';
 import axios from 'axios';
 import moment from 'moment';
+import { useToast } from 'react-native-toast-notifications';
+
 
 export default function AddPasien({ navigation, route }) {
+    const toast = useToast();
     const [kirim, setKirim] = useState({
         fid_pengguna: route.params.id_pengguna,
         nama_pasien: '',
@@ -20,8 +23,14 @@ export default function AddPasien({ navigation, route }) {
 
     const sendData = () => {
         console.log(kirim);
-        axios.post(apiURL + 'add_pasien', sendData).then(res => {
+        axios.post(apiURL + 'add_pasien', kirim).then(res => {
             console.log(res.data);
+            if (res.data.status == 200) {
+                toast.show(res.data.message, {
+                    type: 'success'
+                });
+                navigation.goBack();
+            }
         })
     }
 
@@ -34,8 +43,8 @@ export default function AddPasien({ navigation, route }) {
             <ScrollView>
                 <View style={{ padding: 20 }}>
                     <MyInput
-                        value={kirim.nama_lengkap}
-                        onChangeText={(value) => setKirim({ ...kirim, nama_lengkap: value })}
+                        value={kirim.nama_pasien}
+                        onChangeText={(value) => setKirim({ ...kirim, nama_pasien: value })}
                         label="Nama Lengkap Pasien"
                         placeholder="Isi Nama Lengkap"
                     />

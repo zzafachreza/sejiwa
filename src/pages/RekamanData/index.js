@@ -5,12 +5,13 @@ import { MyGap, MyHeader, MyRadio, MyCalendar, MyPicker, MyInput } from '../../c
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { showMessage } from 'react-native-flash-message';
-import { getData, rekamanDataPasien } from '../../utils/localStorage';
+import { apiURL, getData, rekamanDataPasien } from '../../utils/localStorage';
 import MyLoading from '../../components/MyLoading';
 import { useEffect } from 'react';
+import { useToast } from 'react-native-toast-notifications';
 
 export default function RekamanData({ route, navigation }) {
-    const { pasienId } = route.params; // Ambil pasien ID dari parameter navigasi
+    const ITEM = route.params;
     const [selectedGejala, setSelectedGejala] = useState([]);
     const [selectedKepatuhan, setSelectedKepatuhan] = useState(null);
     const [isRawatInap, setIsRawatInap] = useState(null);
@@ -19,7 +20,7 @@ export default function RekamanData({ route, navigation }) {
     const [selectedPolaMakan, setSelectedPolaMakan] = useState('');  // Awalnya kosong
     const [selectedHasil, setSelectedHasil] = useState('Terkontrol');  // Set default nilai
     const [user, setUser] = useState(null); // Tambahkan state user
-    
+
     const [loading, setLoading] = useState(false); // Tambahkan state loading
 
     const toggleGejala = (value) => {
@@ -30,10 +31,10 @@ export default function RekamanData({ route, navigation }) {
         }
     };
 
- 
-const handlePolaMakanChange = (value) => {
-    setSelectedPolaMakan(value);  // Set langsung ke nilai yang dipilih
-};
+
+    const handlePolaMakanChange = (value) => {
+        setSelectedPolaMakan(value);  // Set langsung ke nilai yang dipilih
+    };
 
     // Ambil user dari local storage
     useEffect(() => {
@@ -67,36 +68,38 @@ const handlePolaMakanChange = (value) => {
             console.error("Tanggal tidak valid:", date);
         }
     };
-    
-    
+
+
+    const toast = useToast();
 
     const simpanRekamanData = () => {
         const tanggalRawatInapFinal = isRawatInap === "Ya" && !selectedDate ? new Date() : selectedDate;
         // Persiapkan data yang akan disimpan
         const rekamanData = {
-            pasien_id: pasienId,
-            user_id: user.id,
-            gejala_psikotik: selectedGejala.join(', '),
-            kepatuhan_obat: selectedKepatuhan,
-            rawat_inap: isRawatInap,
-            tanggal_rawat_inap: tanggalRawatInapFinal ? tanggalRawatInapFinal.toISOString().split('T')[0] : null,
-            aktivitas: aktivitas,
-            pola_makan: selectedPolaMakan,
+            fid_pasien: route.params.id_pasien,
+            a1: selectedGejala.join(', '),
+            a2: selectedKepatuhan,
+            a3: isRawatInap,
+            tanggal_rawatinap: tanggalRawatInapFinal ? tanggalRawatInapFinal.toISOString().split('T')[0] : null,
+            a4: aktivitas,
+            a5: selectedPolaMakan,
             hasil: selectedHasil || 'Terkontrol',  // Pastikan hasil tidak null, default 'Terkontrol'
         };
 
         console.log("Data rekaman yang akan dikirim:", rekamanData);
-        // Kirim data ke server
+
         setLoading(true);
-        axios.post(rekamanDataPasien, rekamanData)
+        axios.post(apiURL + 'add_rekam', rekamanData)
             .then(response => {
+                setLoading(false);
                 console.log(response.data);
-                showMessage({
-                    message: "Rekaman data berhasil disimpan!",
-                    type: "success",
-                });
-                // Lakukan navigasi ke halaman Home Rekaman Data
-                navigation.replace('HomeRekamanData', { pasienId });
+                if (response.data.status == 200) {
+                    toast.show(response.data.message, {
+                        type: 'success'
+                    });
+                    navigation.navigate('HasilRekamanData', rekamanData);
+                }
+
             })
             .catch(error => {
                 setLoading(false);
@@ -151,30 +154,30 @@ const handlePolaMakanChange = (value) => {
 
                     {/* NOMOR 3 */}
                     <View>
-    <Text style={{
-        fontFamily: fonts.primary[400],
-        color: colors.primary,
-        fontSize: 15,
-    }}>3. Pernah Rawat Inap?</Text>
-    <View style={{ padding: 10 }}>
-        <MyRadio label="Ya" selected={isRawatInap === "Ya"} onPress={() => { 
-            setIsRawatInap("Ya");
-            setSelectedDate(null); // Set null saat pertama kali memilih "Ya" agar pengguna harus memilih tanggal
-        }} />
-        {isRawatInap === "Ya" && (
-            <MyCalendar
-                label="Pilih Tanggal Rawat Inap"
-                selectedDate={selectedDate}
-                onDateChange={(date) => handleDateChange(date)}  // Memastikan fungsi handleDateChange dipanggil
-                value={selectedDate || new Date()}  // Gunakan selectedDate jika sudah dipilih, jika belum pakai tanggal saat ini
-            />
-        )}
-        <MyRadio label="Tidak" selected={isRawatInap === "Tidak"} onPress={() => { 
-            setIsRawatInap("Tidak");
-            setSelectedDate(null);  // Reset selectedDate jika memilih "Tidak"
-        }} />
-    </View>
-</View>
+                        <Text style={{
+                            fontFamily: fonts.primary[400],
+                            color: colors.primary,
+                            fontSize: 15,
+                        }}>3. Pernah Rawat Inap?</Text>
+                        <View style={{ padding: 10 }}>
+                            <MyRadio label="Ya" selected={isRawatInap === "Ya"} onPress={() => {
+                                setIsRawatInap("Ya");
+                                setSelectedDate(null); // Set null saat pertama kali memilih "Ya" agar pengguna harus memilih tanggal
+                            }} />
+                            {isRawatInap === "Ya" && (
+                                <MyCalendar
+                                    label="Pilih Tanggal Rawat Inap"
+                                    selectedDate={selectedDate}
+                                    onDateChange={(date) => handleDateChange(date)}  // Memastikan fungsi handleDateChange dipanggil
+                                    value={selectedDate || new Date()}  // Gunakan selectedDate jika sudah dipilih, jika belum pakai tanggal saat ini
+                                />
+                            )}
+                            <MyRadio label="Tidak" selected={isRawatInap === "Tidak"} onPress={() => {
+                                setIsRawatInap("Tidak");
+                                setSelectedDate(null);  // Reset selectedDate jika memilih "Tidak"
+                            }} />
+                        </View>
+                    </View>
 
 
                     <MyGap jarak={10} />
@@ -193,30 +196,30 @@ const handlePolaMakanChange = (value) => {
 
                     {/* NOMOR 5 */}
                     <View>
-    <Text style={{
-        fontFamily: fonts.primary[400],
-        color: colors.primary,
-        fontSize: 15,
-    }}>5. Pola Makan</Text>
-    <View style={{ padding: 10 }}>
-        {/* Radio-like functionality untuk Pola Makan */}
-        <MyRadio
-            label="Sehari 3x"
-            selected={selectedPolaMakan === "Sehari 3x"}
-            onPress={() => handlePolaMakanChange("Sehari 3x")}
-        />
-        <MyRadio
-            label="Sehari 2x"
-            selected={selectedPolaMakan === "Sehari 2x"}
-            onPress={() => handlePolaMakanChange("Sehari 2x")}
-        />
-        <MyRadio
-            label="Kadang-kadang"
-            selected={selectedPolaMakan === "Kadang-kadang"}
-            onPress={() => handlePolaMakanChange("Kadang-kadang")}
-        />
-    </View>
-</View>
+                        <Text style={{
+                            fontFamily: fonts.primary[400],
+                            color: colors.primary,
+                            fontSize: 15,
+                        }}>5. Pola Makan</Text>
+                        <View style={{ padding: 10 }}>
+                            {/* Radio-like functionality untuk Pola Makan */}
+                            <MyRadio
+                                label="Sehari 3x"
+                                selected={selectedPolaMakan === "Sehari 3x"}
+                                onPress={() => handlePolaMakanChange("Sehari 3x")}
+                            />
+                            <MyRadio
+                                label="Sehari 2x"
+                                selected={selectedPolaMakan === "Sehari 2x"}
+                                onPress={() => handlePolaMakanChange("Sehari 2x")}
+                            />
+                            <MyRadio
+                                label="Kadang-kadang"
+                                selected={selectedPolaMakan === "Kadang-kadang"}
+                                onPress={() => handlePolaMakanChange("Kadang-kadang")}
+                            />
+                        </View>
+                    </View>
 
 
                     <MyGap jarak={10} />

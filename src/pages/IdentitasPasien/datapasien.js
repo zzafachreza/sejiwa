@@ -71,7 +71,7 @@ export default function datapasien({ navigation, route }) {
       }}>
         <FlatList data={data} renderItem={({ item, index }) => {
           return (
-            <TouchableOpacity style={{
+            <TouchableOpacity onPress={() => navigation.navigate('InfoPasien', item)} style={{
               marginVertical: 8,
               backgroundColor: colors.white,
               borderRadius: 10,
