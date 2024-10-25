@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Alert
+  Alert,
+  Linking
 } from 'react-native';
 import { MyButton, MyGap, MyInput, MyInputLogin } from '../../components';
 import { MyDimensi, colors, fonts, windowHeight, windowWidth, Color } from '../../utils';
@@ -204,7 +205,7 @@ export default function Login({ navigation, route }) {
               <MyButton onPress={masuk} title="Masuk" />
 
               {/* Button Daftar */}
-              <MyGap jarak={130} />
+              <MyGap jarak={100} />
               <TouchableWithoutFeedback onPress={() => navigation.navigate('Register')}>
                 <View style={{ padding: 10 }}>
                   <Text style={{
@@ -220,13 +221,13 @@ export default function Login({ navigation, route }) {
                 </View>
               </TouchableWithoutFeedback>
 
-              <MyGap jarak={0} />
+              <MyGap jarak={20} />
 
-              <TouchableWithoutFeedback>
+              <TouchableOpacity onPress={() => Linking.openURL('https://wa.me/' + comp.tlp + '?text=Halo Admin Saya Lupa Kata Sandi')}>
                 <View style={{ alignItems: "center" }}>
                   <Text style={{ fontFamily: fonts.primary[700], color: colors.primary, textAlignVertical: 'center' }}>Lupa Kata Sandi</Text>
                 </View>
-              </TouchableWithoutFeedback>
+              </TouchableOpacity>
 
             </View>
 

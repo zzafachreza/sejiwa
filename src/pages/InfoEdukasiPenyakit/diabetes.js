@@ -1,45 +1,12 @@
-import React from 'react';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import Pdf from 'react-native-pdf';
-import { colors } from '../../utils';
-import { MyHeader } from '../../components';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
-export default function InfoEdukasiPenyakitDiabetes({ navigation }) {
-  const pdfSource = require('../../../android/app/src/main/assets/pdf/diabetes.pdf');
-
+export default function InfoEdukasiPenyakitDiabetes() {
   return (
-    <View style={styles.container}>
-      <MyHeader title="Diabetes" />
-      <Pdf
-        source={pdfSource}
-        onLoadComplete={(numberOfPages, filePath) => {
-          console.log(`Number of pages: ${numberOfPages}`);
-        }}
-        onPageChanged={(page, numberOfPages) => {
-          console.log(`Current page: ${page}`);
-        }}
-        onError={(error) => {
-          console.log(error);
-        }}
-        onPressLink={(uri) => {
-          console.log(`Link pressed: ${uri}`);
-        }}
-        trustAllCerts={false}
-        horizontal={false}
-        style={styles.pdf}
-      />
+    <View>
+      <Text>InfoEdukasiPenyakitDiabetes</Text>
     </View>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-  pdf: {
-    flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-});
+const styles = StyleSheet.create({})

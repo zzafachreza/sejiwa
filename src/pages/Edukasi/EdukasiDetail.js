@@ -10,12 +10,13 @@ export default function EdukasiDetail({ navigation, route }) {
     return (
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: colors.white
+            backgroundColor: colors.white,
+            padding: 10
         }}>
             <Image style={{
-                width: windowWidth,
+                width: windowWidth - 20,
                 height: windowHeight,
-                resizeMode: 'center'
+                resizeMode: 'contain'
             }} source={{
                 uri: item.image
             }} />

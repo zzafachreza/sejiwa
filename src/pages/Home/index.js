@@ -110,45 +110,45 @@ export default function Home({ navigation, route }) {
     }}>
 
       <ScrollView>
-        <View style={{padding:10}}>
+        <View style={{ padding: 10 }}>
           {/* HEADER */}
           <View style={{
-            padding:10,
-            flexDirection:"row",
-            justifyContent:"space-between",
-            alignItems:"center"
+            padding: 10,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center"
           }}>
 
-          {/* WELCOME TEKS */}
-          <View>
-            <Text style={{
-              fontFamily:fonts.primary[800],
-              color:colors.primary,
-              fontSize:15
-            }}>
-            Selamat datang, <Text>{user.username}</Text>
-            </Text>
-          </View>
+            {/* WELCOME TEKS */}
+            <View>
+              <Text style={{
+                fontFamily: fonts.primary[800],
+                color: colors.primary,
+                fontSize: 15
+              }}>
+                Selamat datang, <Text>{user.nama_lengkap}</Text>
+              </Text>
+            </View>
 
-          {/* logo */}
-          <View>
-            <Image style={{
-              width:72,
-              height:48
-            }} source={require('../../assets/logohome.png')}/>
-          </View>
+            {/* logo */}
+            <View>
+              <Image style={{
+                width: 72,
+                height: 48
+              }} source={require('../../assets/logohome.png')} />
+            </View>
           </View>
           {/* END HEADER */}
 
 
           {/* SLIDER */}
           <View style={{
-            alignItems:"center"
+            alignItems: "center"
           }}>
             <Image style={{
-              width:338,
-              height:224
-            }} source={require('../../assets/slider_1.png')}/>
+              width: 338,
+              height: 224
+            }} source={require('../../assets/slider_1.png')} />
           </View>
           {/* END SLIDER */}
 
@@ -156,46 +156,50 @@ export default function Home({ navigation, route }) {
 
           {/* MENU */}
           <View style={{
-            padding:10
+            padding: 10
           }}>
 
-          {/* MENU IDENTITAS PASIEN */}
+            {/* MENU IDENTITAS PASIEN */}
             <View>
-              <TouchableWithoutFeedback onPress={() =>  navigation.navigate('DataPasien')}>
-                <View style={{padding:10, backgroundColor:colors.background, borderRadius:30, borderWidth:5,
-                borderColor:Color.blueGray[500], flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
+              <TouchableWithoutFeedback onPress={() => navigation.navigate('DataPasien')}>
+                <View style={{
+                  padding: 10, backgroundColor: colors.background, borderRadius: 30, borderWidth: 5,
+                  borderColor: Color.blueGray[500], flexDirection: "row", justifyContent: "space-between", alignItems: "center"
+                }}>
                   <View>
-                    <Text style={{fontFamily:fonts.primary[700], color:colors.primary, fontSize:35,}}>Identitas{'\n'}
-                    Pasien</Text>
+                    <Text style={{ fontFamily: fonts.primary[700], color: colors.primary, fontSize: 35, }}>Identitas{'\n'}
+                      Pasien</Text>
                   </View>
 
                   <View>
-                    <Image style={{width:114, height:114, }} source={require('../../assets/icon_identitas_pasien.png')}/>
+                    <Image style={{ width: 114, height: 114, }} source={require('../../assets/icon_identitas_pasien.png')} />
                   </View>
                 </View>
               </TouchableWithoutFeedback>
             </View>
             {/* MENU IDENTITAS PASIEN */}
-            <MyGap jarak={20}/>
+            <MyGap jarak={20} />
             {/* MENU EDUKASI */}
 
             <View>
               <TouchableWithoutFeedback onPress={() => navigation.navigate("Edukasi")}>
-                <View style={{padding:10, backgroundColor:colors.background, borderRadius:30, borderWidth:5,
-                borderColor:Color.blueGray[500], flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
+                <View style={{
+                  padding: 10, backgroundColor: colors.background, borderRadius: 30, borderWidth: 5,
+                  borderColor: Color.blueGray[500], flexDirection: "row", justifyContent: "space-between", alignItems: "center"
+                }}>
                   <View>
-                    <Text style={{fontFamily:fonts.primary[700], color:colors.primary, fontSize:35,}}>Edukasi</Text>
+                    <Text style={{ fontFamily: fonts.primary[700], color: colors.primary, fontSize: 35, }}>Edukasi</Text>
                   </View>
 
-                  
+
 
                   <View>
-                    <Image style={{width:101, height:101, }} source={require('../../assets/icon_menu_edukasi.png')}/>
+                    <Image style={{ width: 101, height: 101, }} source={require('../../assets/icon_menu_edukasi.png')} />
                   </View>
                 </View>
               </TouchableWithoutFeedback>
             </View>
-            
+
           </View>
         </View>
       </ScrollView>
