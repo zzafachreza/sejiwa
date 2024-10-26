@@ -72,6 +72,7 @@ import {
   EdukasiDetail,
   AddPasien,
   EditPasien,
+  RekamDetail,
 
 
 
@@ -117,6 +118,17 @@ export default function Router() {
 
         }}
       />
+
+
+      <Stack.Screen
+        name="RekamDetail"
+        component={RekamDetail}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
 
       <Stack.Screen
         name="AddPasien"

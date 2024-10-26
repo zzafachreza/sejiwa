@@ -69,7 +69,7 @@ export default function HomeRekamanData({ navigation, route }) {
             }}>
                 <FlatList data={data} renderItem={({ item, index }) => {
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate('InfoPasien', item)} style={{
+                        <TouchableOpacity onPress={() => navigation.navigate('RekamDetail', item)} style={{
                             marginVertical: 8,
                             backgroundColor: colors.white,
                             borderRadius: 10,

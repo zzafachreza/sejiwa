@@ -67,6 +67,7 @@ import HasilRekamanData from './RekamanData/hasil';
 import EdukasiDetail from './Edukasi/EdukasiDetail';
 import EditPasien from './IdentitasPasien/EditPasien';
 import AddPasien from './IdentitasPasien/AddPasien';
+import RekamDetail from './RekamanData/RekamDetail';
 
 
 
@@ -143,7 +144,7 @@ export {
   HasilRekamanData,
 
   EdukasiDetail,
-
+  RekamDetail
 
 
 
